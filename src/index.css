@@ -1,0 +1,34 @@
+.card{
+  width: 216px;
+  background-color: #ffe6e6 !important;
+  border-radius: 0.6em !important;
+  cursor: pointer;
+  padding: 10px;
+}
+.card:hover{
+  box-shadow: 0 13px 27px -5px hsl(240deg 30% 28% / 25%), 0 8px 16px -8px hsl(0deg 0% 0% / 30%), 0 -6px 16px -6px hsl(0deg 0% 0% / 3%);
+  transition: all ease 200ms;
+}
+.cardimage{
+  background-color: white;
+  padding: 5px;
+}
+img{
+  width: 100%;
+}
+.section{
+  text-align: center;
+}
+.heading{
+  background-color: black;
+  color: white;
+  padding: 8px;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
+}
+.quantity{
+  display: flex;
+  justify-content:center;
+}
+
