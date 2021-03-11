@@ -15,6 +15,7 @@
 }
 img{
   width: 100%;
+  height: 180px;
 }
 .section{
   text-align: center;
@@ -32,3 +33,56 @@ img{
   justify-content:center;
 }
 
+/*  */
+
+@keyframes customEnterOverlayAnimation {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes customLeaveOverlayAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes customEnterModalAnimation {
+  0% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes customLeaveModalAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.2);
+  }
+}
+
+.customModal{
+  width: 100%;
+  min-height: 100px;
+  background-color: #e2e6ea !important;
+}
+.circularBtn{
+  width: 25px;
+    border: 1px solid;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+.footer{
+  background-color: #fff;
+  padding: 5px;
+  text-align: right;
+}

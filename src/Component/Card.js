@@ -1,6 +1,7 @@
 
 import { Button } from 'react-bootstrap';
-const Card =({name,price,url,handleOnchange,volatile,handleAdd})=>{
+const Card =({name,price,url,handleOnclick,isAddDisabled,qty})=>{
+
     return(
     <>
         <div className='card'>
@@ -12,34 +13,33 @@ const Card =({name,price,url,handleOnchange,volatile,handleAdd})=>{
                 <label>1kg</label><br/>
                 <label>price : {price}</label>
             </div>
-
-            {/* <div className="" style={{width:'216px',display:'flex',justifyContent:'space-between'}}>
-                <label>QTY</label>
-                <input type="text" value='1'/>
-                <button>Add</button>
-            </div> */}
-
             <div className="input-group mb-3">
                 <div className="input-group-prepend">
-                    <span className="input-group-text">QTY</span>
+                    {
+                        (isAddDisabled 
+                            && 
+                            (<Button className="btn btn-warning" name="decr" onClick={(e)=>handleOnclick(e,name)}>-</Button>))
+                            ||
+                            (
+                                <span className="input-group-text">QTY</span>
+                            )
+                    }
+                    
                 </div>
-                <input type="text" name={name} className="form-control text-center" value={volatile[name]}/>
+                <span type="text" name={name} className="form-control text-center">{qty}</span>
                 <div className="input-group-append">
-                    <Button className="btn btn-warning" name="add" onClick={(e)=>handleAdd(e,name,price,url)}>Add</Button>
+                    {
+                        (isAddDisabled && (
+                            <Button className="btn btn-warning" name="incr" onClick={(e)=>handleOnclick(e,name)}>+</Button>
+                        ))
+                        ||
+                        (
+                            <Button className="btn btn-warning" name="add" onClick={(e)=>handleOnclick(e,name)}>Add</Button>
+                        )
+                    }
+                    
                 </div>
             </div>
-
-
-
-
-
-            {/* <div className='quantity'>
-                <input type='number' name={name} value={volatile[name]} placeholder="quantity" min={0} onChange={handleOnchange} 
-                style={{width:'50%',textAlign:'center'}}/>
-
-                <Button variant='secondary' name="add" onClick={()=>handleOnclick(name,price,url)} size='sm'>ADD</Button>
-            </div> */}
-            <label>{volatile?.error}</label>
         </div>
     </>
     )

@@ -4,106 +4,100 @@ import Header from "../Component/Header";
 import data from "../Util/data.json";
 const Container =()=>{
     const {vegetable} = data || [];
-    const [volatile, setVolatile] = useState({
-        error:'',
-        qtyArr : [],
-        itemCart:[],
-        checkName:'',
+    const [volatile,setVolatile]=useState({
+        itemList:[],
+        cartItem:[],
     })
-    const [list, setList]= useState({});
-
+    const [isModal,setModal] = useState(false)
     useEffect(()=>{
-        const getName = () => vegetable?.map(el => el.name);
-        const res = getName().reduce((acc,curr)=> (acc[curr]='1',acc),{});
         setVolatile((state)=>({
             ...state,
-            ...res
+            itemList:vegetable.map(e=>({
+                ...e,
+                isAddDisabled:false,
+                qty:0,
+            }))
         }))
     },[])
-    
-    const handleOnchange=({target})=>{
-        const {name,value} = target;
 
+    
+    const handleSearch=({target})=>{
+        const {value} = target;
+        const filterData = vegetable?.filter(veg=> veg?.name.toLowerCase().includes(value.toLowerCase()));
+        const listData = volatile?.itemList;
         setVolatile((state)=>({
             ...state,
-            [name]:Number(value)
+            itemList:filterData.map((e,i)=>{
+                return{
+                    ...e,
+                    isAddDisabled:listData[i]?.isAddDisabled || null,
+                    qty:listData[i]?.qty || null
+                }
+            })
         }))
 
     };
-    const handleAdd = (e,name,price,url) => {
+    const handleOnclick = (e,name) => {
         const {target} = e;
-        let qtyArr = volatile?.qtyArr;
-        let itemCart = volatile?.itemCart;
-        let checkName = volatile?.checkName;
-        let qty = volatile[name]
-        const obj = {
-            name,
-            price,
-            url,
-            qty,
-        }
         if(target.name === 'add'){
-            e.target.style.display = 'none'
-        }
-
-        console.log('obj',obj)
-    }
-    const handleOnclick = (name,price,url) => {
-        let qtyArr = volatile?.qtyArr;
-        let itemCart = volatile?.itemCart;
-        let checkName = volatile?.checkName;
-        let qty = volatile[name]
-        if(!qty) return;
-        debugger
-        if(checkName === name){
-            qtyArr.push(qty)
-            // const cartData = [{
-            //     name,
-            //     price,
-            //     qty : qtyArr?.reduce((a,b)=>a+b),
-            //     url,
-            // }]
-
-            const it = itemCart.map((e)=>{
-                if (e.name === name){
-                    return(
-                        {
+            setVolatile((state)=>({
+                ...state,
+                itemList:state.itemList.map(e=>{
+                    if(e.name === name){
+                        return {
                             ...e,
-                            qty:qtyArr?.reduce((a,b)=>a+b),
+                            qty:e.qty+1,
+                            isAddDisabled:true,
                         }
-                    )
-                }
-            })
-            itemCart = [...itemCart,...it];
-
+                    }
+                    return {
+                        ...e,
+                    }
+                })
+            }))
         }
-        else{
-            qtyArr  = [qty]
-            const cartData = {
-                name,
-                price,
-                qty :qty,
-                url,
-            }
-            itemCart.push(cartData);
+        if(target.name === 'incr'){
+            setVolatile((state)=>({
+                ...state,
+                itemList:state.itemList.map(e=>{
+                    if(e.name === name){
+                        return {
+                            ...e,
+                            qty:e.qty+1,
+                        }
+                    }
+                    return {
+                        ...e,
+                    }
+                })
+            }))
         }
-        checkName=name;
-        setVolatile((state)=>({
-            ...state,
-            qtyArr,
-            itemCart,
-            checkName,
-        }))
+        if(target.name === 'decr'){
+            setVolatile((state)=>({
+                ...state,
+                itemList:state.itemList.map(e=>{
+                    if(e.name === name){
+                        return {
+                            ...e,
+                            qty:e.qty-1,
+                            isAddDisabled:e.qty === 0,
+                        }
+                    }
+                    return {
+                        ...e,
+                    }
+                })
+            }))
+        }
     }
-    console.log("dhdabfjdsbfh",volatile?.itemCart)
-    useEffect(()=>{
-        
-    },[volatile])
     return(
         <div>
             <Header
-                volatile={volatile}
-                setVolatile={setVolatile}
+               itemList = {volatile?.itemList}
+               isModal={isModal}
+               setModal={setModal}
+               handleOnclick={handleOnclick}
+               handleSearch={handleSearch}
             />
             <br/>
             <br/>
@@ -111,17 +105,20 @@ const Container =()=>{
             <div className="listDetails container">
                 <div className="row">
             {
-                vegetable?.map((el,i)=>{
+                volatile?.itemList.length === 0  && (<div>No vegetable</div>)
+            }
+            {
+                volatile?.itemList?.map((el,i)=>{
                     return(
-                        <div key={i} className="col-lg-3 col-md-4 mt-4 col-sm-6 co-12">
+                        <div key={el.id} className="col-lg-3 col-md-4 mt-4 col-sm-6 co-12">
                          <Card
                             handleOnclick={handleOnclick}
-                            handleOnchange={handleOnchange}
-                            handleAdd={handleAdd}
                             name={el.name}
                             price={el.price}
                             url={el.url}
-                            volatile={volatile}
+                            isAddDisabled = {el.isAddDisabled}
+                            qty = {el.qty || 1}
+                            isDecreamentDisabled={el.isDecreamentDisabled}
                          />
                         </div>
                     )
