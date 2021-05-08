@@ -13,7 +13,7 @@ const Card =({name,price,url,handleOnclick,isAddDisabled,qty})=>{
                 <label>1kg</label><br/>
                 <label>price : {price}</label>
             </div>
-            <div className="input-group mb-3">
+            <div className="input-group mb-3">``
                 <div className="input-group-prepend">
                     {
                         (isAddDisabled 

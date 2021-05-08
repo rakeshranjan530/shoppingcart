@@ -25,6 +25,7 @@ const Container =()=>{
         const {value} = target;
         const filterData = vegetable?.filter(veg=> veg?.name.toLowerCase().includes(value.toLowerCase()));
         const listData = volatile?.itemList;
+        console.log(filterData);
         setVolatile((state)=>({
             ...state,
             itemList:filterData.map((e,i)=>{

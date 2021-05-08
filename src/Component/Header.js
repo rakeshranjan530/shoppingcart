@@ -13,7 +13,7 @@ const Header =({
     <>
      
         {
-            isModal && (<ModalComponent isModal={isModal} setModal={setModal} cartData={cartData} handleOnclick={handleOnclick}/>)
+            isModal && (<ModalComponent isModal={isModal} setModal={setModal} cartData={cartData} handleOnclick={handleOnclick} />)
         }
       <div className='heading'>
         <div className='container'>
